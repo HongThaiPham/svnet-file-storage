@@ -30,6 +30,7 @@ import { useOrganization, useUser } from "@clerk/nextjs";
 import { Doc } from "../../convex/_generated/dataModel";
 import { createFile } from "../../convex/files";
 import { toast } from "./ui/use-toast";
+import { ACCEPTED_FILE_TYPES, CONTENTTYPE_TO_DOCTYPE } from "@/lib/utils";
 
 const formSchema = z.object({
   // title: z.string().min(2).max(200),
@@ -74,22 +75,6 @@ const UploadFileDialog: React.FC<Props> = ({ trigger }) => {
       body: values.file[0],
     });
     const { storageId } = await result.json();
-    const types = {
-      "image/png": "image",
-      "application/pdf": "pdf",
-      "text/csv": "csv",
-      "application/msword": "doc",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        "docx",
-      "application/vnd.ms-excel": "xls",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-        "xlsx",
-      "application/vnd.ms-powerpoint": "ppt",
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-        "ppt",
-      "application/x-zip-compressed": "zip",
-      "text/plain": "txt",
-    } as Record<string, Doc<"files">["type"]>;
 
     const fileType = values.file[0].type;
     const fileName = values.file[0].name;
@@ -98,7 +83,7 @@ const UploadFileDialog: React.FC<Props> = ({ trigger }) => {
         name: fileName,
         fileId: storageId,
         orgId,
-        type: types[fileType],
+        type: CONTENTTYPE_TO_DOCTYPE[fileType],
       });
 
       form.reset();
@@ -161,7 +146,7 @@ const UploadFileDialog: React.FC<Props> = ({ trigger }) => {
                       <Input
                         type="file"
                         {...fileRef}
-                        accept="image/*,.pdf,.csv,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/x-zip-compressed,text/plain"
+                        accept={ACCEPTED_FILE_TYPES.join(",")}
                       />
                     </FormControl>
                     <FormMessage />
