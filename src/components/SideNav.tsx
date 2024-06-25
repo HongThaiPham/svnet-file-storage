@@ -11,7 +11,7 @@ type Props = {};
 const SideNav: React.FC<Props> = ({}) => {
   const pathname = usePathname();
   return (
-    <div className="w-40 flex flex-col gap-4">
+    <div className="w-80 flex flex-col gap-4 sm:rounded-sm sm:shadow-md p-3">
       <Link href="/dashboard/files">
         <Button
           variant={"link"}
@@ -30,7 +30,7 @@ const SideNav: React.FC<Props> = ({}) => {
             "text-blue-500": pathname.includes("/dashboard/favorites"),
           })}
         >
-          <StarIcon /> Favorites
+          <StarIcon className="text-yellow-500" /> Favorites
         </Button>
       </Link>
 
@@ -41,7 +41,7 @@ const SideNav: React.FC<Props> = ({}) => {
             "text-blue-500": pathname.includes("/dashboard/trash"),
           })}
         >
-          <TrashIcon /> Trash
+          <TrashIcon className="text-red-500" /> Trash
         </Button>
       </Link>
     </div>
