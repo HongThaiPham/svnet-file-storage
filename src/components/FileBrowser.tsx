@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import UploadFileButton from "./UploadFileButton";
 import { usePathname } from "next/navigation";
 import FileCard from "./FileCard";
+import SearchBar from "./SearchBar";
 
 type Props = {
   title: string;
@@ -63,7 +64,10 @@ const FileBrowser: React.FC<Props> = ({
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">{title}</h1>
-        <UploadFileButton />
+        <div className="flex items-center gap-2">
+          <SearchBar query={query} setQuery={setQuery} />
+          <UploadFileButton />
+        </div>
       </div>
       {isLoading && (
         <div className="flex flex-col gap-8 w-full items-center mt-24">
