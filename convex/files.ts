@@ -6,7 +6,6 @@ import {
   mutation,
   query,
 } from "./_generated/server";
-import { getUser } from "./users";
 import { fileTypes } from "./schema";
 import { Doc, Id } from "./_generated/dataModel";
 
@@ -25,7 +24,6 @@ export async function hasAccessToOrg(
   orgId: string
 ) {
   const identity = await ctx.auth.getUserIdentity();
-
   if (!identity) {
     return null;
   }
@@ -36,7 +34,6 @@ export async function hasAccessToOrg(
       q.eq("tokenIdentifier", identity.tokenIdentifier)
     )
     .first();
-
   if (!user) {
     return null;
   }
@@ -65,7 +62,6 @@ export const createFile = mutation({
     if (!hasAccess) {
       throw new ConvexError("you do not have access to this org");
     }
-
     await ctx.db.insert("files", {
       name: args.name,
       orgId: args.orgId,

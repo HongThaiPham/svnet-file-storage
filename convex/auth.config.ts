@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://tops-rooster-79.clerk.accounts.dev",
+      domain: `https://${process.env.CLERK_HOSTNAME}`,
       applicationID: "convex",
     },
   ],
