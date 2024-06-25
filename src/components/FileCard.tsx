@@ -68,6 +68,15 @@ const FileCard: React.FC<Props> = ({ file }) => {
 
         {file.type === "csv" && <GanttChartIcon className="w-20 h-20" />}
         {file.type === "pdf" && <FileTextIcon className="w-20 h-20" />}
+        {file.type === "doc" && <FileTextIcon className="w-20 h-20" />}
+        {file.type === "docx" && <FileTextIcon className="w-20 h-20" />}
+        {file.type === "xls" && <FileSpreadsheetIcon className="w-20 h-20" />}
+        {file.type === "xlsx" && <FileSpreadsheetIcon className="w-20 h-20" />}
+        {file.type === "ppt" && <PresentationIcon className="w-20 h-20" />}
+        {file.type === "pptx" && <PresentationIcon className="w-20 h-20" />}
+        {file.type === "zip" && <FileArchiveIcon className="w-20 h-20" />}
+        {file.type === "txt" && <TextIcon className="w-20 h-20" />}
+        {file.type === "json" && <FileJsonIcon className="w-20 h-20" />}
       </CardContent>
       <CardFooter className="flex justify-between">
         <div className="flex gap-2 text-xs text-gray-700 w-40 items-center">

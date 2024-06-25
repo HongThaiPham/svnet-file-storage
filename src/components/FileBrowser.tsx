@@ -8,6 +8,7 @@ import NoDataPlaceholder from "./NoDataPlaceholder";
 import { Loader2 } from "lucide-react";
 import UploadFileButton from "./UploadFileButton";
 import { usePathname } from "next/navigation";
+import FileCard from "./FileCard";
 
 type Props = {
   title: string;
@@ -70,7 +71,13 @@ const FileBrowser: React.FC<Props> = ({
           <div className="text-2xl">Loading your files...</div>
         </div>
       )}
-      {!isLoading && files.length > 0 && <div></div>}
+      {!isLoading && files.length > 0 && (
+        <div>
+          {modifiedFiles.map((file) => (
+            <FileCard key={file._id} file={file} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

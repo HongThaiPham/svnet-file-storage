@@ -10,6 +10,7 @@ export const fileTypes = v.union(
   v.literal("xls"),
   v.literal("xlsx"),
   v.literal("ppt"),
+  v.literal("pptx"),
   v.literal("zip"),
   v.literal("txt"),
   v.literal("json")
