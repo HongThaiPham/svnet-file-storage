@@ -1,3 +1,4 @@
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +24,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { useToast } from "@/components/ui/use-toast";
 import { Protect } from "@clerk/nextjs";
@@ -45,6 +46,44 @@ export function FileCardActions({
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
+  const handleToggleFavorite = useCallback(async () => {
+    try {
+      await toggleFavorite({
+        fileId: file._id,
+      });
+      toast({
+        variant: "success",
+        title: "Updated",
+        description: "New favorite status saved",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: "Failed to update favorite status",
+      });
+    }
+  }, [file._id, toast, toggleFavorite]);
+
+  const handleDeleteFile = useCallback(async () => {
+    try {
+      await deleteFile({
+        fileId: file._id,
+      });
+      toast({
+        variant: "success",
+        title: "File marked for deletion",
+        description: "Your file will be deleted soon",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: "Failed to delete the file",
+      });
+    }
+  }, [deleteFile, file._id, toast]);
+
   return (
     <>
       <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
@@ -52,24 +91,13 @@ export function FileCardActions({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action will mark the file for our deletion process. Files are
-              deleted periodically
+              This action will move the file to trash and mark the file for our
+              deletion process. Files are deleted periodically
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={async () => {
-                await deleteFile({
-                  fileId: file._id,
-                });
-                toast({
-                  variant: "default",
-                  title: "File marked for deletion",
-                  description: "Your file will be deleted soon",
-                });
-              }}
-            >
+            <AlertDialogAction onClick={handleDeleteFile}>
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -92,11 +120,7 @@ export function FileCardActions({
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => {
-              toggleFavorite({
-                fileId: file._id,
-              });
-            }}
+            onClick={handleToggleFavorite}
             className="flex gap-1 items-center cursor-pointer"
           >
             {isFavorited ? (
@@ -139,7 +163,7 @@ export function FileCardActions({
                 </div>
               ) : (
                 <div className="flex gap-1 text-red-600 items-center cursor-pointer">
-                  <TrashIcon className="w-4 h-4" /> Delete
+                  <TrashIcon className="w-4 h-4" /> Move to trash
                 </div>
               )}
             </DropdownMenuItem>

@@ -6,7 +6,7 @@ type Props = {};
 const FavoritePage: React.FC<Props> = ({}) => {
   return (
     <div>
-      <FileBrowser title="Trash" deletedOnly />
+      <FileBrowser title="Favorites" favoritesOnly />
     </div>
   );
 };

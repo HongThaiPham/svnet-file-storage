@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "convex/react";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { useOrganization, useUser } from "@clerk/nextjs";
 import { Doc } from "../../convex/_generated/dataModel";
@@ -49,13 +49,16 @@ const FileBrowser: React.FC<Props> = ({
     api.files.getAllFavorites,
     orgId ? { orgId } : "skip"
   );
-  const modifiedFiles =
-    files?.map((file) => ({
-      ...file,
-      isFavorited: (favorites ?? []).some(
-        (favorite) => favorite.fileId === file._id
-      ),
-    })) ?? [];
+  const modifiedFiles = useMemo(() => {
+    return (
+      files?.map((file) => ({
+        ...file,
+        isFavorited: (favorites ?? []).some(
+          (favorite) => favorite.fileId === file._id
+        ),
+      })) ?? []
+    );
+  }, [favorites, files]);
 
   if (files?.length === 0 && !pathname.includes("/dashboard/trash")) {
     return <NoDataPlaceholder />;
