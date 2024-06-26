@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { FileTable } from "./FileTable";
+import { DataTable } from "./ui/data-table";
 
 type Props = {
   title: string;
@@ -132,7 +132,7 @@ const FileBrowser: React.FC<Props> = ({
           </div>
         </TabsContent>
         <TabsContent value="table">
-          <FileTable columns={columns} data={modifiedFiles} />
+          <DataTable columns={columns} data={modifiedFiles} />
         </TabsContent>
       </Tabs>
       {files?.length === 0 && !pathname.includes("/dashboard/trash") && (
